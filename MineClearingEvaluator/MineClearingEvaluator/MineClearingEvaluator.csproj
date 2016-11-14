@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SimpleInjector, Version=3.2.7.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.3.2.7\lib\net45\SimpleInjector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,8 +47,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Evaluator.cs" />
-    <Compile Include="IEvaluator.cs" />
+    <Compile Include="Models\Coordinates.cs" />
+    <Compile Include="Common\Direction.cs" />
+    <Compile Include="Models\Entity.cs" />
+    <Compile Include="Common\FiringPattern.cs" />
+    <Compile Include="Models\Instruction.cs" />
+    <Compile Include="Services\CharacterDistanceConverter.cs" />
+    <Compile Include="Services\Evaluator.cs" />
+    <Compile Include="Models\Field.cs" />
+    <Compile Include="Services\FieldParser.cs" />
+    <Compile Include="Models\Mine.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -52,9 +64,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Script.cs" />
+    <Compile Include="Services\ScriptParser.cs" />
+    <Compile Include="Models\Ship.cs" />
+    <Compile Include="ValidationException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -36,6 +36,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SimpleInjector, Version=3.2.7.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SimpleInjector.3.2.7\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -51,14 +55,45 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ProgramTests.cs" />
+    <Compile Include="EvaluatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MineClearingEvaluator\MineClearingEvaluator.csproj">
       <Project>{2FAE5999-AD71-4098-B5E3-5C634C96B125}</Project>
       <Name>MineClearingEvaluator</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ScriptFile4.txt" />
+    <None Include="Resources\ScriptFile3.txt" />
+    <None Include="Resources\ScriptFile2.txt" />
+    <None Include="Resources\ScriptFile1.txt" />
+    <None Include="Resources\Output5.txt" />
+    <None Include="Resources\Output4.txt" />
+    <None Include="Resources\Output3.txt" />
+    <None Include="Resources\Output2.txt" />
+    <None Include="Resources\Output1.txt" />
+    <None Include="Resources\FieldFile5.txt" />
+    <None Include="Resources\FieldFile4.txt" />
+    <None Include="Resources\FieldFile3.txt" />
+    <None Include="Resources\FieldFile2.txt" />
+    <None Include="Resources\FieldFile1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ScriptFile5.txt" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
