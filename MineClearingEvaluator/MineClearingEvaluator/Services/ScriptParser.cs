@@ -7,7 +7,7 @@ namespace MineClearingEvaluator.Services
 {
     public interface IScriptParser
     {
-        Script Parse(string scriptText);
+        Queue<Instruction> Parse(string scriptText);
     }
 
     public class ScriptParser : IScriptParser
@@ -28,31 +28,39 @@ namespace MineClearingEvaluator.Services
             {"west", Direction.West },
         };
 
-        public Script Parse(string scriptText)
+        public Queue<Instruction> Parse(string scriptText)
         {
-            var instructions = new List<Instruction>();
+            var instructions = new Queue<Instruction>();
 
-            var lines = scriptText?.Trim().Split(new string[] {"\r\n", "\n"}, StringSplitOptions.RemoveEmptyEntries) ?? new string[0];
+            var lines = scriptText?.Trim().Replace("\r", "").Split(new string[] {"\n"}, StringSplitOptions.RemoveEmptyEntries) ?? new string[0];
 
             foreach (var line in lines)
             {
                 var firingPattern = FiringPattern.None;
                 var direction = Direction.None;
+                var shootFirst = true;
 
                 var lineInstructions = line.Split();
 
                 if (lineInstructions.Length == 2)
                 {
-                    if (!_firingPatternMapping.ContainsKey(lineInstructions[0]))
+                    if (_firingPatternMapping.ContainsKey(lineInstructions[0]) &&
+                        _directionMapping.ContainsKey(lineInstructions[1]))
                     {
-                        throw new ValidationException($"Invalid script: {lineInstructions[0]} is not a valid firing pattern");
+                        firingPattern = _firingPatternMapping[lineInstructions[0]];
+                        direction = _directionMapping[lineInstructions[1]];
                     }
-                    if (!_directionMapping.ContainsKey(lineInstructions[1]))
+                    else if (_firingPatternMapping.ContainsKey(lineInstructions[1]) &&
+                             _directionMapping.ContainsKey(lineInstructions[0]))
                     {
-                        throw new ValidationException($"Invalid script: {lineInstructions[1]} is not a valid direction");
+                        firingPattern = _firingPatternMapping[lineInstructions[1]];
+                        direction = _directionMapping[lineInstructions[0]];
+                        shootFirst = false;
                     }
-                    firingPattern = _firingPatternMapping[lineInstructions[0]];
-                    direction = _directionMapping[lineInstructions[1]];
+                    else
+                    {
+                        throw new ValidationException($"Invalid script: {lineInstructions} is not a valid instruction");
+                    }
                 }
                 else if (lineInstructions.Length == 1)
                 {
@@ -75,11 +83,11 @@ namespace MineClearingEvaluator.Services
                     throw new ValidationException($"Invalid script: {lineInstructions} is not a valid instruction");
                 }
 
-                instructions.Add(new Instruction(firingPattern, direction, line));
+                instructions.Enqueue(new Instruction(firingPattern, direction, line, shootFirst));
             }
 
 
-            return new Script(instructions);
+            return instructions;
         }
     }
 }

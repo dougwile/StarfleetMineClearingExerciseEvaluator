@@ -35,10 +35,10 @@ namespace MineClearingEvaluatorUnitTests.Services
                 private It should_return_Z = () => Result.ShouldEqual('Z');
             }
 
-            public class When_converting_negative : ConvertDistanceToCharacterConcern
+            public class When_converting_less_than_one : ConvertDistanceToCharacterConcern
             {
-                private Because of = () => ExceptionResult = Catch.Exception(() => sut.ConvertDistanceToCharacter(-1));
-                private It should_throw_exception = () => ExceptionResult.ShouldBeAssignableTo(typeof(ArgumentException));
+                private Because of = () => Result = sut.ConvertDistanceToCharacter(0);
+                private It should_return_Z = () => Result.ShouldEqual('*');
             }
 
             public class When_converting_large : ConvertDistanceToCharacterConcern

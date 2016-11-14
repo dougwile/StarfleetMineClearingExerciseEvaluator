@@ -1,5 +1,3 @@
-using MineClearingEvaluator.Models;
-
 namespace MineClearingEvaluator.Services
 {
     public interface IEvaluator
@@ -29,21 +27,23 @@ namespace MineClearingEvaluator.Services
         public string Evaluate(string fieldText, string scriptText)
         {
             var field = _fieldParser.Parse(fieldText);
-            var script = _scriptParser.Parse(scriptText);
+            var instructions = _scriptParser.Parse(scriptText);
             var output = "";
 
-            for (var i = 0; i < script.Instructions.Count; i++)
+            var simulation = _simulator.CreateSimulation(field, instructions);
+            while (!simulation.IsComplete)
             {
-                var instruction = script.Instructions[i];
+                output += $"Step {simulation.StepCount + 1}\n\n";
+                output += $"{_fieldPrinter.Print(simulation.Field)}\n\n";
+                output += $"{simulation.NextInstruction.Text}\n\n";
 
-                output += $"Step {i + 1}\n\n";
-                output += $"{_fieldPrinter.Print(field)}\n\n";
-                output += $"{instruction.Text}";
+                simulation.Step();
 
-                field = _simulator.Simulate(field, instruction);
-
-                output += $"{_fieldPrinter.Print(field)}\n\n";
+                output += $"{_fieldPrinter.Print(simulation.Field)}\n\n";
             }
+                
+            var scoreTerm = simulation.Passed ? "pass" : "fail";
+            output += $"{scoreTerm} ({simulation.Score})";
 
             return output;
         }

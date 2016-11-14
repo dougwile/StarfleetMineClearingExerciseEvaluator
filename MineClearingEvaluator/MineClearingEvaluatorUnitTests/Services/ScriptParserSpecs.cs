@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using developwithpassion.specifications.rhinomocks;
 using Machine.Fakes;
 using Machine.Specifications;
@@ -33,8 +35,8 @@ namespace MineClearingEvaluatorUnitTests.Services
                 private It should_return_script = () => Result.ShouldNotBeNull();
                 private It should_return_no_instructions = () =>
                 {
-                    Result.Instructions.ShouldNotBeNull();
-                    Result.Instructions.Count.ShouldEqual(0);
+                    Result.ShouldNotBeNull();
+                    Result.Count.ShouldEqual(0);
                 };
             }
 
@@ -45,47 +47,49 @@ namespace MineClearingEvaluatorUnitTests.Services
                 private It should_return_script = () => Result.ShouldNotBeNull();
                 private It should_return_no_instructions = () =>
                 {
-                    Result.Instructions.ShouldNotBeNull();
-                    Result.Instructions.Count.ShouldEqual(0);
+                    Result.ShouldNotBeNull();
+                    Result.Count.ShouldEqual(0);
                 };
             }
 
             public class When_parsing_valid_script : ParseConcern
             {
-                private Establish context2 = () => ScriptText = "north\r\nsouth\neast\nwest\nalpha\nbeta\ngamma\ndelta\r\nalpha north\r\n";
+                private Establish context2 = () => ScriptText = "north\nsouth\neast\nwest\nalpha\nbeta\ngamma\ndelta\nalpha north\n";
                 private Because of = () => Result = sut.Parse(ScriptText);
                 private It should_return_script = () => Result.ShouldNotBeNull();
                 private It should_return_instructions = () =>
                 {
-                    Result.Instructions.ShouldNotBeNull();
-                    Result.Instructions.Count.ShouldEqual(9);
+                    Result.ShouldNotBeNull();
+                    Result.Count.ShouldEqual(9);
 
-                    Result.Instructions[0].FiringPattern.ShouldEqual(FiringPattern.None);
-                    Result.Instructions[0].Direction.ShouldEqual(Direction.North);
+                    var resultList = Result.ToList();
 
-                    Result.Instructions[1].FiringPattern.ShouldEqual(FiringPattern.None);
-                    Result.Instructions[1].Direction.ShouldEqual(Direction.South);
+                    resultList[0].FiringPattern.ShouldEqual(FiringPattern.None);
+                    resultList[0].Direction.ShouldEqual(Direction.North);
 
-                    Result.Instructions[2].FiringPattern.ShouldEqual(FiringPattern.None);
-                    Result.Instructions[2].Direction.ShouldEqual(Direction.East);
+                    resultList[1].FiringPattern.ShouldEqual(FiringPattern.None);
+                    resultList[1].Direction.ShouldEqual(Direction.South);
 
-                    Result.Instructions[3].FiringPattern.ShouldEqual(FiringPattern.None);
-                    Result.Instructions[3].Direction.ShouldEqual(Direction.West);
+                    resultList[2].FiringPattern.ShouldEqual(FiringPattern.None);
+                    resultList[2].Direction.ShouldEqual(Direction.East);
 
-                    Result.Instructions[4].FiringPattern.ShouldEqual(FiringPattern.Alpha);
-                    Result.Instructions[4].Direction.ShouldEqual(Direction.None);
+                    resultList[3].FiringPattern.ShouldEqual(FiringPattern.None);
+                    resultList[3].Direction.ShouldEqual(Direction.West);
 
-                    Result.Instructions[5].FiringPattern.ShouldEqual(FiringPattern.Beta);
-                    Result.Instructions[5].Direction.ShouldEqual(Direction.None);
+                    resultList[4].FiringPattern.ShouldEqual(FiringPattern.Alpha);
+                    resultList[4].Direction.ShouldEqual(Direction.None);
 
-                    Result.Instructions[6].FiringPattern.ShouldEqual(FiringPattern.Gamma);
-                    Result.Instructions[6].Direction.ShouldEqual(Direction.None);
+                    resultList[5].FiringPattern.ShouldEqual(FiringPattern.Beta);
+                    resultList[5].Direction.ShouldEqual(Direction.None);
 
-                    Result.Instructions[7].FiringPattern.ShouldEqual(FiringPattern.Delta);
-                    Result.Instructions[7].Direction.ShouldEqual(Direction.None);
+                    resultList[6].FiringPattern.ShouldEqual(FiringPattern.Gamma);
+                    resultList[6].Direction.ShouldEqual(Direction.None);
 
-                    Result.Instructions[8].FiringPattern.ShouldEqual(FiringPattern.Alpha);
-                    Result.Instructions[8].Direction.ShouldEqual(Direction.North);
+                    resultList[7].FiringPattern.ShouldEqual(FiringPattern.Delta);
+                    resultList[7].Direction.ShouldEqual(Direction.None);
+
+                    resultList[8].FiringPattern.ShouldEqual(FiringPattern.Alpha);
+                    resultList[8].Direction.ShouldEqual(Direction.North);
                 };
             }
 
@@ -125,7 +129,7 @@ namespace MineClearingEvaluatorUnitTests.Services
                 private It should_throw_exception = () => ExceptionResult.ShouldBeAssignableTo(typeof(ValidationException));
             }
 
-            public static Script Result { get; set; }
+            public static Queue<Instruction> Result { get; set; }
 
             public static string ScriptText { get; set; }
         }

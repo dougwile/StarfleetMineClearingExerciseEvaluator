@@ -28,6 +28,7 @@ namespace MineClearingEvaluator
             var result = evaluator.Evaluate(field, script);
 
             Console.Write(result);
+            Console.ReadLine();
         }
 
         public static void SetUpIoC()

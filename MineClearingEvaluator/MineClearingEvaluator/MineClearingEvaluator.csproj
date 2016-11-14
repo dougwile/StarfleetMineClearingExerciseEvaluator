@@ -52,6 +52,7 @@
     <Compile Include="Models\Entity.cs" />
     <Compile Include="Common\FiringPattern.cs" />
     <Compile Include="Models\Instruction.cs" />
+    <Compile Include="Models\Simulation.cs" />
     <Compile Include="Services\CharacterDistanceConverter.cs" />
     <Compile Include="Services\Evaluator.cs" />
     <Compile Include="Models\Field.cs" />

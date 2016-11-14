@@ -29,6 +29,11 @@ namespace MineClearingEvaluator.Services
 
         public char ConvertDistanceToCharacter(int distance)
         {
+            if (distance <= 0)
+            {
+                return '*';
+            }
+
             if (!_distanceToCharacterMap.ContainsKey(distance))
             {
                 throw new ArgumentException("Invalid distance");

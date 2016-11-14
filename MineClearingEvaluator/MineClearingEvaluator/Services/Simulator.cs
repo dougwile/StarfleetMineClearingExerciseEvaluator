@@ -8,6 +8,7 @@ namespace MineClearingEvaluator.Services
     public interface ISimulator
     {
         Field Simulate(Field field, Instruction instruction);
+        ISimulation CreateSimulation(Field field, Queue<Instruction> instructions);
     }
 
     public class Simulator : ISimulator
@@ -72,32 +73,53 @@ namespace MineClearingEvaluator.Services
         {
             var ship = field.Ship;
 
-            if (instruction.FiringPattern != FiringPattern.None)
+            if (instruction.ShootFirst)
             {
-                
-                var torpedoesCoords = GetTorpedoesCoordinates(field.Ship.Coordinates, instruction.FiringPattern);
-
-                var remainingMines = new List<Mine>();
-                foreach (var mine in field.Mines)
-                {
-                    if (!torpedoesCoords.Any(t => t.X == mine.Coordinates.X && t.Y == mine.Coordinates.Y))
-                    {
-                        remainingMines.Add(mine);
-                    }
-                }
-
-                field.Mines = remainingMines;
+                Shoot(field, instruction);
+                Move(field, instruction);
+            }
+            else
+            {
+                Move(field, instruction);
+                Shoot(field, instruction);
             }
 
-            if (instruction.Direction != Direction.None)
-            {
-                var shipOffset = _directionOffsetMapping[instruction.Direction];
-
-                ship.Coordinates.X += shipOffset.X;
-                ship.Coordinates.Y += shipOffset.Y;
-            }
+            ship.Coordinates.Z--;
 
             return field;
+        }
+
+        private static void Move(Field field, Instruction instruction)
+        {
+            if (instruction.Direction == Direction.None) return;
+
+            var shipOffset = _directionOffsetMapping[instruction.Direction];
+
+            field.Ship.Coordinates.X += shipOffset.X;
+            field.Ship.Coordinates.Y += shipOffset.Y;
+        }
+
+        private void Shoot(Field field, Instruction instruction)
+        {
+            if (instruction.FiringPattern == FiringPattern.None) return;
+
+            var torpedoesCoords = GetTorpedoesCoordinates(field.Ship.Coordinates, instruction.FiringPattern);
+
+            var remainingMines = new List<Mine>();
+            foreach (var mine in field.Mines)
+            {
+                if (!torpedoesCoords.Any(t => t.X == mine.Coordinates.X && t.Y == mine.Coordinates.Y))
+                {
+                    remainingMines.Add(mine);
+                }
+            }
+
+            field.Mines = remainingMines;
+        }
+
+        public ISimulation CreateSimulation(Field field, Queue<Instruction> instructions)
+        {
+            return new Simulation(field, instructions);
         }
 
         private IList<Coordinates> GetTorpedoesCoordinates(Coordinates shipCoords, FiringPattern firingPattern)

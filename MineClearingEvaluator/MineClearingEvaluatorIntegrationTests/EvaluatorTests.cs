@@ -28,7 +28,7 @@ namespace MineClearingEvaluatorIntegrationTests
             var output = Resources.Output1;
 
             var result = Evaluator.Evaluate(field, script);
-            Assert.AreEqual(result, output);
+            Assert.AreEqual(output, result);
         }
 
         [TestMethod()]
@@ -39,7 +39,40 @@ namespace MineClearingEvaluatorIntegrationTests
             var output = Resources.Output2;
 
             var result = Evaluator.Evaluate(field, script);
-            Assert.AreEqual(result, output);
+            Assert.AreEqual(output, result);
+        }
+
+        [TestMethod()]
+        public void Evaluator_evaluates_example_3()
+        {
+            var field = Resources.FieldFile3;
+            var script = Resources.ScriptFile3;
+            var output = Resources.Output3;
+
+            var result = Evaluator.Evaluate(field, script);
+            Assert.AreEqual(output, result);
+        }
+
+        [TestMethod()]
+        public void Evaluator_evaluates_example_4()
+        {
+            var field = Resources.FieldFile4;
+            var script = Resources.ScriptFile4;
+            var output = Resources.Output4;
+
+            var result = Evaluator.Evaluate(field, script);
+            Assert.AreEqual(output, result);
+        }
+
+        [TestMethod()]
+        public void Evaluator_evaluates_example_5()
+        {
+            var field = Resources.FieldFile5;
+            var script = Resources.ScriptFile5;
+            var output = Resources.Output5;
+
+            var result = Evaluator.Evaluate(field, script);
+            Assert.AreEqual(output, result);
         }
     }
 }
