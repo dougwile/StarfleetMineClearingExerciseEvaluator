@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace MineClearingEvaluator.Services
@@ -10,30 +11,40 @@ namespace MineClearingEvaluator.Services
 
     public class CharacterDistanceConverter : ICharacterDistanceConverter
     {
-        public IDictionary<char, int> CharacterToDistanceMap { get; set; }
-        public IDictionary<int, char> DistanceToCharacterMap { get; set; }
+        private readonly IDictionary<char, int> _characterToDistanceMap;
+        private readonly IDictionary<int, char> _distanceToCharacterMap;
 
         public CharacterDistanceConverter()
         {
-            CharacterToDistanceMap = new Dictionary<char, int>();
-            DistanceToCharacterMap = new Dictionary<int, char>();
+            _characterToDistanceMap = new Dictionary<char, int>();
+            _distanceToCharacterMap = new Dictionary<int, char>();
 
             const string charcters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
             for (var i = 0; i < charcters.Length; i++)
             {
-                CharacterToDistanceMap.Add(charcters[i], i + 1);
-                DistanceToCharacterMap.Add(i + 1, charcters[i]);
+                _characterToDistanceMap.Add(charcters[i], i + 1);
+                _distanceToCharacterMap.Add(i + 1, charcters[i]);
             }
         }
 
         public char ConvertDistanceToCharacter(int distance)
         {
-            return DistanceToCharacterMap[distance];
+            if (!_distanceToCharacterMap.ContainsKey(distance))
+            {
+                throw new ArgumentException("Invalid distance");
+            }
+
+            return _distanceToCharacterMap[distance];
         }
 
         public int ConvertCharacterToDistance(char character)
         {
-            return CharacterToDistanceMap[character];
+            if (!_characterToDistanceMap.ContainsKey(character))
+            {
+                throw new ArgumentException("Invalid character");
+            }
+
+            return _characterToDistanceMap[character];
         }
     }
 }

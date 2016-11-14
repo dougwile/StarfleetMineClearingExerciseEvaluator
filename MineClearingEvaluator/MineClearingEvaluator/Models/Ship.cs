@@ -1,5 +1,3 @@
-using MineClearingEvaluator.Common;
-
 namespace MineClearingEvaluator.Models
 {
     public class Ship : Entity

@@ -9,8 +9,8 @@ namespace MineClearingEvaluator.Models
             Z = z;
         }
 
-        public int X { get; protected set; }
-        public int Y { get; protected set; }
-        public int Z { get; protected set; }
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Z { get; set; }
     }
 }

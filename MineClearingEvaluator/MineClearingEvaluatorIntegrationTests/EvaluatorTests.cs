@@ -30,5 +30,16 @@ namespace MineClearingEvaluatorIntegrationTests
             var result = Evaluator.Evaluate(field, script);
             Assert.AreEqual(result, output);
         }
+
+        [TestMethod()]
+        public void Evaluator_evaluates_example_2()
+        {
+            var field = Resources.FieldFile2;
+            var script = Resources.ScriptFile2;
+            var output = Resources.Output2;
+
+            var result = Evaluator.Evaluate(field, script);
+            Assert.AreEqual(result, output);
+        }
     }
 }

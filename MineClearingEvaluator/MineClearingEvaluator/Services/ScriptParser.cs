@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MineClearingEvaluator.Common;
 using MineClearingEvaluator.Models;
@@ -31,7 +32,7 @@ namespace MineClearingEvaluator.Services
         {
             var instructions = new List<Instruction>();
 
-            var lines = scriptText?.Trim().Split(new char[] {'\r', '\n'}) ?? new string[0];
+            var lines = scriptText?.Trim().Split(new string[] {"\r\n", "\n"}, StringSplitOptions.RemoveEmptyEntries) ?? new string[0];
 
             foreach (var line in lines)
             {
@@ -74,7 +75,7 @@ namespace MineClearingEvaluator.Services
                     throw new ValidationException($"Invalid script: {lineInstructions} is not a valid instruction");
                 }
 
-                instructions.Add(new Instruction(firingPattern, direction));
+                instructions.Add(new Instruction(firingPattern, direction, line));
             }
 
 

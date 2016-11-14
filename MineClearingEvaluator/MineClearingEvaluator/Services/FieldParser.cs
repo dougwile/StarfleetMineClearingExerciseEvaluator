@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MineClearingEvaluator.Models;
 
@@ -24,14 +25,12 @@ namespace MineClearingEvaluator.Services
 
             var mines = new List<Mine>();
 
-            var lines = fieldText.Trim().Split(new[] { '\r', '\n' });
+            var lines = fieldText.Trim().Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
-            
-
-            for (int i = 0; i < lines.Length; i++)
+            for (var i = 0; i < lines.Length; i++)
             {
                 var line = lines[i];
-                for (int j = 0; j < line.Length; j++)
+                for (var j = 0; j < line.Length; j++)
                 {
                     var character = line[j];
                     if (character == '.')
@@ -39,13 +38,13 @@ namespace MineClearingEvaluator.Services
                         continue;
                     }
                     var distance = _characterDistanceConverter.ConvertCharacterToDistance(character);
-                    var mine = new Mine(i, j, distance);
+                    var mine = new Mine(j, i, distance);
                     mines.Add(mine);
                 }
             }
 
-            var width = lines.Length;
-            var length = lines[0].Length;
+            var width = lines[0].Length;
+            var length = lines.Length;
 
             /* The ship starts in the center of the grid. This means that a valid grid has an odd 
              * number of rows and columns. Because the grid is zero indexed, we can get the center

@@ -7,6 +7,6 @@ namespace MineClearingEvaluator.Models
             Coordinates = new Coordinates(x, y, z);
         }
 
-        public Coordinates Coordinates { get; set; }
+        public Coordinates Coordinates { get; private set; }
     }
 }

@@ -47,6 +47,8 @@ namespace MineClearingEvaluator
             this.Register<ICharacterDistanceConverter, CharacterDistanceConverter>();
             this.Register<IFieldParser, FieldParser>();
             this.Register<IScriptParser, ScriptParser>();
+            this.Register<IFieldPrinter, FieldPrinter>();
+            this.Register<ISimulator, Simulator>();
 
             // Verify the container's configuration.
             this.Verify();
