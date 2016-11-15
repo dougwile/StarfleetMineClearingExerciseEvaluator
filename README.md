@@ -35,6 +35,8 @@ Open up a command prompt at this location. The program takes two arguments as in
 ```
 The program will output the results of the mine clearing simulation to the console. These results may be compared to the examples given in the problem definition.
 
+You may also run this program through the Visual Studio debugger. The entry point is in Program.cs with the static method Main. You must configure Visual Studio to supply the two required arguments.
+
 ## Running the tests
 
 The unit tests for this project can be run by a MSpec test runner described above. Using the Resharper extension in Visual Studio, you can right click the MineClearingEvaluatorUnitTests project in the solution explorer and click Run Unit Tests. If you are using a different test runner, please follow the instructions for your specific test runner.
