@@ -43,7 +43,13 @@ The integration tests for this project can be run by the MSTest framework that c
 
 ## Design decisions
 
-Comments can be found throughout the codebase describing why certain design decisions were made. 
+Comments can be found throughout the codebase describing why certain design decisions were made. Additional comments follow below:
+
+I chose to break up my main project into four primary sections: my program's entrypoint at Program.cs handles the command prompt, setting up the IoC container, and starting the evaluation; the Models folder houses the objects with relatively few dependencies and which either hold data or maintain state; the Common folder houses the enums and exceptions used elsewhere in the project; the Services folder holds the injectible services which perform complex logic on or with other objects. I organized my code this way to help draw a clear line between what objects are responsible for what logic.
+
+I chose to write my integration tests in MSTest because I did not need anything more complex for them. The integration tests merely compare my Evaluator's output to the expected output. I went with a combo of MSpec and RhonoMocks for my unit tests because they get the job done as a solid Context/Specification framework and mock object framework, respectively, and I am comfortable writing tests quickly with them. 
+
+I wrote my unit tests for the FieldParser, ScriptParser, and CharacterDistanceConverter while I was writing the classes themselves which helped me catch bugs early. However, once I got my integration tests up and running, I used those to test the validity of the Evaluator and Simulation and I did not go back to write unit tests for the remaining classes. As the "instructor" for the class, I would prioritize getting this program complete so I can grade the students' scripts over full unit test coverage, especially with passing integration tests.
 
 ## Authors
 

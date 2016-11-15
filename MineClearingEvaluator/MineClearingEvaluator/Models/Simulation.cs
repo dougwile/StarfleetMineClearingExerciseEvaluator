@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using MineClearingEvaluator.Common;
-using MineClearingEvaluator.Services;
 
 namespace MineClearingEvaluator.Models
 {
@@ -18,13 +17,27 @@ namespace MineClearingEvaluator.Models
         void Step();
     }
 
+    /// <summary>
+    ///     The Simulation contains the initial state of the field and the instructions to be executed.
+    ///     At each call of the Step method, the simulation runs one instruction and updates the field.
+    ///     At the same time, the relevant information about the state of the field is updated, including
+    ///     whether the simulation is complete, whether it is passed or failed, and the score.
+    ///     I modeled this class loosely on the concept of a game loop for video games. The game contains
+    ///     some initial state, performs some logic each "frame", and then updates the state for the next
+    ///     iteration.
+    ///     This design could be improved by further breaking off the responsibilities of the simulation into
+    ///     other classes. For example, the firing pattern offset mapping could be handled by a class dedicated
+    ///     too translating the firing pattern into torpeo coordinates. I chose to keep the class as it is because
+    ///     it is readable and maintainable enough, has few dependencies, and adheres to a fairly simple interface.
+    ///     In the wise words of Donald Knuth, "premature optimization is the root of all evil".
+    /// </summary>
     public class Simulation : ISimulation
     {
         private static IDictionary<FiringPattern, IList<Offset>> _firingPatternOffsetMapping;
         private static IDictionary<Direction, Offset> _directionOffsetMapping;
-        private int _distanceMoved;
         private readonly int _initialMineCount;
         private readonly Queue<Instruction> _instructions;
+        private int _distanceMoved;
         private int _shotsFired;
 
         public Simulation(Field field, Queue<Instruction> instructions)
@@ -124,14 +137,11 @@ namespace MineClearingEvaluator.Models
             {
                 var torpedoesCoords = GetTorpedoesCoordinates(Field.Ship.Coordinates, instruction.FiringPattern);
 
-                var remainingMines = new List<Mine>();
-                foreach (var mine in Field.Mines)
-                {
-                    if (!torpedoesCoords.Any(t => t.X == mine.Coordinates.X && t.Y == mine.Coordinates.Y))
-                    {
-                        remainingMines.Add(mine);
-                    }
-                }
+                // The remaining mines are the ones where no torpedoes were fired in their XY lane
+                var remainingMines = Field.Mines.Where(mine =>
+                    torpedoesCoords.All(t =>
+                        !(t.X == mine.Coordinates.X && t.Y == mine.Coordinates.Y)))
+                    .ToList();
 
                 Field.Mines = remainingMines;
                 _shotsFired++;
@@ -146,6 +156,7 @@ namespace MineClearingEvaluator.Models
                 _distanceMoved++;
             }
 
+            // The ship descends one Z level each iteration
             Field.Ship.Coordinates.Z++;
 
             StepCount++;

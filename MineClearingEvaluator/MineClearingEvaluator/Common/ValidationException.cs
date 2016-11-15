@@ -1,6 +1,6 @@
 using System;
 
-namespace MineClearingEvaluator
+namespace MineClearingEvaluator.Common
 {
     public class ValidationException : Exception
     {

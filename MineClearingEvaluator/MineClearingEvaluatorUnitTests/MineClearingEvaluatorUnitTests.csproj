@@ -84,8 +84,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FieldPrinterSpecs.cs" />
     <Compile Include="Services\CharacterDistanceConverterSpecs.cs" />
-    <Compile Include="Services\FieldParserTests.cs" />
+    <Compile Include="Services\FieldParserSpecs.cs" />
     <Compile Include="Services\ScriptParserSpecs.cs" />
   </ItemGroup>
   <ItemGroup>

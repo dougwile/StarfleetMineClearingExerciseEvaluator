@@ -9,6 +9,13 @@ namespace MineClearingEvaluator.Services
         int ConvertCharacterToDistance(char character);
     }
 
+    /// <summary>
+    /// The CharacterDistanceConverter is a convenience service to easily swap between
+    /// the depth in km and the char representation stated in the problem description. 
+    /// By keeping this in an injectible service, no other part of the system needs to worry
+    /// about how the depth is represented. Additionally, this service allows me to 
+    /// follow the DRY principle without resoring to using any globals.
+    /// </summary>
     public class CharacterDistanceConverter : ICharacterDistanceConverter
     {
         private readonly IDictionary<char, int> _characterToDistanceMap;

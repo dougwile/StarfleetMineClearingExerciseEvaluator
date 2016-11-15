@@ -15,7 +15,6 @@ namespace MineClearingEvaluatorUnitTests.Services
             private Establish context = () =>
             {
                 CharacterDistanceConverter = depends.@on<ICharacterDistanceConverter>();
-                
             };
 
             public static ICharacterDistanceConverter CharacterDistanceConverter { get; set; }

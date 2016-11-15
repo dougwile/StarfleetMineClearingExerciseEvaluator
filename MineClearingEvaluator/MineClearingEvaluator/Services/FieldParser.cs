@@ -9,6 +9,10 @@ namespace MineClearingEvaluator.Services
         Field Parse(string fieldText);
     }
 
+    /// <summary>
+    /// The field parser takes the field text as input and builds an object representing the field.
+    /// The field contains the mines and the ship in a coordinate system.
+    /// </summary>
     public class FieldParser : IFieldParser
     {
         private readonly ICharacterDistanceConverter _characterDistanceConverter;
@@ -20,8 +24,10 @@ namespace MineClearingEvaluator.Services
 
         public Field Parse(string fieldText)
         {
-            // assume the field text is valid since it is provided by the instructor
-            //TODO: add validation if it becomes an issue in the future
+            /* I assume the field text is valid since it is ostensibly provided by me, the Instructor
+             * One potential improvement is to validate the field text if it were to be deemed necessary
+             * in the future
+             */
 
             var mines = new List<Mine>();
 

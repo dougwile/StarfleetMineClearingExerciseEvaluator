@@ -65,12 +65,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Script.cs" />
     <Compile Include="Services\FieldPrinter.cs" />
+    <Compile Include="Models\Offset.cs" />
     <Compile Include="Services\ScriptParser.cs" />
     <Compile Include="Models\Ship.cs" />
-    <Compile Include="Services\Simulator.cs" />
-    <Compile Include="ValidationException.cs" />
+    <Compile Include="Services\SimulationFactory.cs" />
+    <Compile Include="Common\ValidationException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

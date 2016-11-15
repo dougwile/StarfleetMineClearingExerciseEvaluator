@@ -1,8 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.IO;
-using System.Reflection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MineClearingEvaluator;
 using MineClearingEvaluator.Services;
 using MineClearingEvaluatorIntegrationTests.Properties;
@@ -25,7 +21,7 @@ namespace MineClearingEvaluatorIntegrationTests
         {
             var field = Resources.FieldFile1;
             var script = Resources.ScriptFile1;
-            var output = Resources.Output1;
+            var output = Resources.Output1.Replace("\r", ""); // get rid of carriage returns because Windows is annoying
 
             var result = Evaluator.Evaluate(field, script);
             Assert.AreEqual(output, result);
@@ -36,7 +32,7 @@ namespace MineClearingEvaluatorIntegrationTests
         {
             var field = Resources.FieldFile2;
             var script = Resources.ScriptFile2;
-            var output = Resources.Output2;
+            var output = Resources.Output2.Replace("\r", "");
 
             var result = Evaluator.Evaluate(field, script);
             Assert.AreEqual(output, result);
@@ -47,7 +43,7 @@ namespace MineClearingEvaluatorIntegrationTests
         {
             var field = Resources.FieldFile3;
             var script = Resources.ScriptFile3;
-            var output = Resources.Output3;
+            var output = Resources.Output3.Replace("\r", "");
 
             var result = Evaluator.Evaluate(field, script);
             Assert.AreEqual(output, result);
@@ -58,7 +54,7 @@ namespace MineClearingEvaluatorIntegrationTests
         {
             var field = Resources.FieldFile4;
             var script = Resources.ScriptFile4;
-            var output = Resources.Output4;
+            var output = Resources.Output4.Replace("\r", "");
 
             var result = Evaluator.Evaluate(field, script);
             Assert.AreEqual(output, result);
@@ -69,7 +65,7 @@ namespace MineClearingEvaluatorIntegrationTests
         {
             var field = Resources.FieldFile5;
             var script = Resources.ScriptFile5;
-            var output = Resources.Output5;
+            var output = Resources.Output5.Replace("\r", "");
 
             var result = Evaluator.Evaluate(field, script);
             Assert.AreEqual(output, result);

@@ -10,6 +10,12 @@ namespace MineClearingEvaluator.Services
         Queue<Instruction> Parse(string scriptText);
     }
 
+    /// <summary>
+    /// The ScriptParser will convert the student's script text into a queue of instructions which
+    /// will be executed in order by the simulator. This is the only part of the program that must know 
+    /// how to interpret the written script commands and so is the only class with access to the 
+    /// firing patter and direction mappings. 
+    /// </summary>
     public class ScriptParser : IScriptParser
     {
         private readonly IDictionary<string, FiringPattern> _firingPatternMapping = new Dictionary<string, FiringPattern>()
@@ -49,6 +55,7 @@ namespace MineClearingEvaluator.Services
                     {
                         firingPattern = _firingPatternMapping[lineInstructions[0]];
                         direction = _directionMapping[lineInstructions[1]];
+                        shootFirst = true;
                     }
                     else if (_firingPatternMapping.ContainsKey(lineInstructions[1]) &&
                              _directionMapping.ContainsKey(lineInstructions[0]))
@@ -67,10 +74,12 @@ namespace MineClearingEvaluator.Services
                     if (_firingPatternMapping.ContainsKey(lineInstructions[0]))
                     {
                         firingPattern = _firingPatternMapping[lineInstructions[0]];
+                        shootFirst = true;
                     }
                     else if (_directionMapping.ContainsKey(lineInstructions[0]))
                     {
                         direction = _directionMapping[lineInstructions[0]];
+                        shootFirst = false;
                     }
                     else
                     {

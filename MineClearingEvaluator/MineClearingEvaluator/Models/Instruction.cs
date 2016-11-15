@@ -2,6 +2,10 @@ using MineClearingEvaluator.Common;
 
 namespace MineClearingEvaluator.Models
 {
+    /// <summary>
+    /// An instruction determines which direction and firing pattern to execute, if any, as well as the 
+    /// order to execute them in. It also contains the original text from the script for later use in the output.
+    /// </summary>
     public class Instruction
     {
         public Instruction(FiringPattern firingPattern, Direction direction, string text, bool shootFirst)
